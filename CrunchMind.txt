@@ -1,0 +1,148 @@
+   <h style='font-family: Times New Roman'>Mind Crunch Interpreter</h>
+
+<br>
+
+<button onclick='submit()'>Run</button>
+<button onclick='save()'>Save File</button>
+<input type='text' id='fileName'></input>
+<button onclick='reset()'>Reset</button>
+<br>
+<textarea id='output' disabled='true' style='font-size: 20px' rows='1' cols='40' placeholder='output...'></textarea>
+
+<br>
+
+<textarea type='text' id='wee' style='color: white; background-color: black; font-family: Comic Sans MS; font-size: 20p
+x' rows = '30' cols = '50'>
+</textarea>
+
+<script>
+
+const chars = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',
+'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','1','2','3','4'
+,'5','6','7','8','9','0','!','@','#','$','%','^','&','*','(',')','<',',','>','.','?','/', '"', ';', ' ', '=', '\\', ':'
+];
+
+function reset(){
+
+const textarea = document.getElementById('wee');
+
+const gay = document.getElementById('output');
+
+const mason = document.getElementById('fileName');
+
+var ifTrue=confirm('Are you sure you want to reset the text feild?');
+
+if(ifTrue){
+
+
+textarea.value = 'Hello';
+gay.value='';
+
+mason.value='';
+}
+
+}
+
+chars[99]= 'ERROR: Index \[99\] is not defined';
+
+
+function save() {
+
+var rtty = document.getElementById('fileName').value+'.mindcrunch';
+
+var data = document.getElementById("wee").value;
+
+var c = document.createElement("a");
+
+c.download = rtty;
+
+
+var t = new Blob([data], {
+type: "text/plain"
+});
+
+c.href = window.URL.createObjectURL(t);
+
+c.click();
+
+}
+
+function submit(){
+
+
+var pos = 99;
+
+const positions = [];
+
+var code = document.getElementById('wee').value;
+
+const instructions = code.split('');
+
+
+for(i=0; i<instructions.length; i++){
+
+if(pos>chars.length){
+
+alert('ERROR: Index \['+pos+'\] is not defined');
+
+}
+
+if(pos<chars.length){
+
+if(instructions[i] === '>'){
+
+pos+=1;
+
+}
+
+if(instructions[i] === '<'){
+
+pos-=1;
+
+}
+
+if(instructions[i] === '|'){
+
+pos = 0;
+
+}
+
+if(instructions[i] === '!' && instructions[i+1] === ','){
+
+positions.push(chars[pos]);
+
+}
+
+if(instructions[i] === '.'){
+
+positions.push(' ');
+
+
+}
+
+}
+
+}
+
+var outputVar = positions.join('');
+
+if(instructions[0] === '$' && instructions[1] === '(' && instructions.indexOf(')')>0){
+
+document.getElementById('output').value=positions.join('');
+
+console.log(pos);
+
+eval(outputVar);
+
+
+}else{
+
+document.getElementById('output').value=positions.join('');
+
+console.log(pos);
+
+}
+
+}
+
+</script>
